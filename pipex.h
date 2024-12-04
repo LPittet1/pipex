@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:36:48 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/03 10:07:10 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/04 12:57:13 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@
 # include <sys/types.h>
 # include <stdio.h>
 # include <errno.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 
 #endif
