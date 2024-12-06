@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:36:18 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/06 13:36:49 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/06 15:24:07 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ char	*find_cmd(char *cmd, char **env)
 			return (path);
 		i++;
 	}
-	// perror(cmd);
-	// exit (errno);
+	perror(cmd);
+	exit (errno);
 	return (NULL);
 }
 
@@ -87,7 +87,7 @@ void	parent(char *file, char *cmd, char **env, int *pipefd)
 	int		fd;
 
 	close(pipefd[1]);
-	fd = open(file, O_CREAT|O_WRONLY|O_TRUNC, 0644);
+	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		perror("Error output file");
@@ -109,7 +109,7 @@ int	main(int ac, char **av, char **env)
 {
 	pid_t	pid;
 	int		pipefd[2];
-	
+
 	if (ac != 5 || !av[1][1] || !av[2][1] || !av[3][1] || !av[4][1])
 		return (1);
 	if (pipe(pipefd) == -1)

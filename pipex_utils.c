@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 09:36:28 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/06 13:35:29 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/06 15:25:50 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static size_t	count_words(char const *s, char c, int *in_s_q, int *in_d_q)
 	return (count);
 }
 
-static 	char	*fill_words(char const  *s, char c, int *i)
+static	char	*fill_words(char const *s, char c, int *i)
 {
-	int 	len;
-	int 	in_s_quote;
-	int 	in_d_quote;
+	int	len;
+	int	in_s_quote;
+	int	in_d_quote;
 
 	len = 0;
 	in_s_quote = 0;
@@ -56,14 +56,14 @@ static 	char	*fill_words(char const  *s, char c, int *i)
 		else if (s[*i] == '\"')
 			in_d_quote = !in_d_quote;
 		if (s[*i] == c && !in_d_quote && ! in_s_quote)
-			break;
+			break ;
 		len++;
 		*i = *i + 1;
 	}
 	return (ft_substr(s, *i - len, len));
 }
 
-static	char	**ft_split_words(char const *s, char c, char **tab, size_t num_w)
+static	char	**ft_words(char const *s, char c, char **tab, size_t num_w)
 {
 	int		i;
 	size_t	iword;
@@ -84,9 +84,9 @@ static	char	**ft_split_words(char const *s, char c, char **tab, size_t num_w)
 static	char	**clean_quote(char **tab)
 {
 	int	i;
-	
+
 	i = 0;
-	while(tab[i])
+	while (tab[i])
 	{
 		tab[i] = ft_strtrim(tab[i], "\'\"");
 		i++;
@@ -114,22 +114,7 @@ char	**pipex_split(char const *s, char c)
 	tab = (char **)malloc(sizeof(char *) * (num_words + 1));
 	if (tab == NULL)
 		return (NULL);
-	tab = ft_split_words(s, c, tab, num_words);
+	tab = ft_words(s, c, tab, num_words);
 	tab = clean_quote(tab);
 	return (tab);
 }
-
-// int main(int ac, char **av)
-// {
-// 	char **tab;
-// 	int i = 0;
-// 	if (ac == 2)
-// 	{
-// 		tab = pipex_split(av[1],  ' ');
-// 		while (tab[i])
-// 		{
-// 			printf("%s\n", tab[i]);
-// 			i++;
-// 		}
-// 	}
-// }
