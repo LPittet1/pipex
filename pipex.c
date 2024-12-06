@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:36:18 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/04 16:02:36 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/06 13:36:49 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	child(char *file, char *cmd, char **env, int *pipefd)
 		perror("Cannot read input file");
 		exit (errno);
 	}
-	cmd_split = ft_split(cmd, ' ');
+	cmd_split = pipex_split(cmd, ' ');
 	path = find_cmd(cmd_split[0], env);
 	dup2(fd, STDIN_FILENO);
 	dup2(pipefd[1], STDOUT_FILENO);
@@ -93,7 +93,7 @@ void	parent(char *file, char *cmd, char **env, int *pipefd)
 		perror("Error output file");
 		exit (errno);
 	}
-	cmd_split = ft_split(cmd, ' ');
+	cmd_split = pipex_split(cmd, ' ');
 	path = find_cmd(cmd_split[0], env);
 	dup2(pipefd[0], STDIN_FILENO);
 	dup2(fd, STDOUT_FILENO);
