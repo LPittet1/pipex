@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -g
 
-SRCS =  pipex_utils.c pipex.c
+SRCS =  pipex_split.c pipex.c pipex_utils.c
 
 LIBFT_PATH = libft
 

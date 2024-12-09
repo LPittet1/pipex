@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
@@ -6,19 +6,33 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:10:41 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/08 10:01:57 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/09 09:15:35 by lpittet          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "pipex.h"
 
-void child(char *cmd, char **env)
+void	parent(char *cmd, char **env, char *out)
+{
+	char	*path;
+	char	**cmd_split;
+	int		fd;
+
+	close
+}
+
+void	child(char *cmd, char **env)
 {
 	char	*path;
 	char	**cmd_split;
 	int		pipefd[2];
 	pid_t	pid;
 	
+	if (pipe(pipefd) == -1)
+	{
+		perror("Error creating pipe");
+		exit (1);
+	}
 	cmd_split = pipex_split(cmd, ' ');
 	path = find_path(cmd_split[0], env);
 	dup2(pipefd[1] ,STDOUT_FILENO);
@@ -67,5 +81,5 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 	wait(NULL);
-	parent(av[i], av[ac - 1]);
+	parent(av[i], env, av[ac - 1]);
 }
