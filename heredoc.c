@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 09:36:48 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/10 16:06:25 by lpittet          ###   ########.fr       */
+/*   Created: 2024/12/10 11:43:12 by lpittet           #+#    #+#             */
+/*   Updated: 2024/12/10 17:05:45 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-# include "libft/includes/libft.h"
-# include <fcntl.h>
-# include <sys/types.h>
-# include <stdio.h>
-# include <errno.h>
-# include <sys/wait.h>
-# include <sys/types.h>
+int	heredoc(char *limiter)
+{
+	int	fd;
+	char *line;
 
-char	**pipex_split(char const *s, char c);
-char	*ft_strjoin_and_free(char *s1, char const *s2);
-void	freesplit(char **tab);
-char	*find_path(char *cmd, char **env);
-int		heredoc(char *limiter);
-#endif
+	fd = open("here_doc", O_CREAT | O_APPEND | O_RDWR, 0666);
+	line = get_next_line(0);
+	while (line)
+	{
+		ft_putstr_fd(line, fd);
+		if (!ft_strncmp(line, limiter, ft_strlen(line)))
+			break ;
+		free(line);
+		line = get_next_line(0);
+	}
+	free(line);
+	return (fd);
+}
+
+//TODO change break condition to accept only exact match

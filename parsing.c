@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 09:13:24 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/10 09:38:40 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/10 14:33:02 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ static	char	*search_env(char **env)
 		if (ft_strnstr(env[i], "PATH=", 5))
 		{
 			path_list = env[i];
-			break ;
+			return (path_list + 5);
 		}
 		i++;
 	}
-	return (path_list + 5);
+	ft_putendl_fd("PATH not found", 2);
+	return (NULL);
 }
 
-char	*find_cmd(char *cmd, char **env)
+char	*find_path(char *cmd, char **env)
 {
 	char	*path_list;
 	char	**src;
@@ -50,6 +51,8 @@ char	*find_cmd(char *cmd, char **env)
 
 	i = 0;
 	path_list = search_env(env);
+	if (!path_list)
+		exit(1);
 	src = ft_split(path_list, ':');
 	i = 0;
 	while (src[i])

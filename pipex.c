@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:36:18 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/10 09:36:25 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/10 14:29:14 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	child(char *file, char *cmd, char **env, int *pipefd)
 		exit (EXIT_FAILURE);
 	}
 	cmd_split = pipex_split(cmd, ' ');
-	path = find_cmd(cmd_split[0], env);
+	path = find_path(cmd_split[0], env);
 	if (!path)
 	{
 		ft_putstr_fd(cmd_split[0], 2);
@@ -65,7 +65,7 @@ void	parent(char *file, char *cmd, char **env, int *pipefd)
 		exit (EXIT_FAILURE);
 	}
 	cmd_split = pipex_split(cmd, ' ');
-	path = find_cmd(cmd_split[0], env);
+	path = find_path(cmd_split[0], env);
 	if (!path)
 	{
 		ft_putstr_fd(cmd_split[0], 2);
@@ -83,8 +83,8 @@ int	main(int ac, char **av, char **env)
 {
 	pid_t	pid;
 	int		pipefd[2];
-
-	if (ac != 5 || !av[1][1] || !av[2][1] || !av[3][1] || !av[4][1])
+	
+	if (!*env || ac != 5 || !av[1][1] || !av[2][1] || !av[3][1] || !av[4][1])
 		return (1);
 	if (pipe(pipefd) == -1)
 	{
