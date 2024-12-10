@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 09:36:28 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/09 15:49:25 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/10 09:36:57 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,6 @@ char	**pipex_split(char const *s, char c)
 	in_d_quote = 0;
 	in_s_quote = 0;
 	num_words = count_words(s, c, &in_s_quote, &in_d_quote);
-	// if (in_d_quote || in_s_quote)
-	// {
-	// 	ft_putendl_fd("Open quotes", 2);
-	// 	exit (1);
-	// }
 	tab = (char **)malloc(sizeof(char *) * (num_words + 1));
 	if (tab == NULL)
 		return (NULL);

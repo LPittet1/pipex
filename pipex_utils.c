@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:45:43 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/09 14:00:20 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/10 09:37:35 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ char	*ft_strjoin_and_free(char *s1, const char *s2)
 	return (join);
 }
 
-void freesplit(char **tab)
+void	freesplit(char **tab)
 {
 	int	i;
-	
+
 	i = 0;
 	while (tab[i])
 	{
