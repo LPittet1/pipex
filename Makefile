@@ -1,14 +1,19 @@
 NAME = pipex
 
-NAME_BONUS = pipex_bonus
-
 CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -g
 
-SRCS =  pipex_split.c pipex.c pipex_utils.c parsing.c tries1.c tries2.c
+SRCDIR = srcs/
 
-SRCS_BONUS = pipex_split.c pipex_bonus.c pipex_utils.c parsing.c  heredoc.c tries1.c tries2.c
+SRCS =  srcs/pipex_split.c srcs/pipex.c srcs/pipex_utils.c \
+		srcs/parsing.c srcs/tries1.c srcs/tries2.c
+
+BONUSDIR = bonus/
+
+SRCS_BONUS = $(BONUSDIR)pipex_split.c $(BONUSDIR)pipex_bonus.c \
+		$(BONUSDIR)pipex_utils.c $(BONUSDIR)parsing.c  $(BONUSDIR)heredoc.c \
+		$(BONUSDIR)tries1.c $(BONUSDIR)tries2.c
 
 LIBFT_PATH = libft
 
@@ -24,7 +29,7 @@ all: $(NAME)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_PATH)
@@ -37,12 +42,9 @@ fclean: clean
 	@rm -f $(NAME) $(NAME_BONUS)
 	@$(MAKE) fclean -C $(LIBFT_PATH)
 
-bonus: $(NAME_BONUS)
-
-$(NAME_BONUS): $(OBJS_BONUS) $(LIBFT)
-	@$(CC) $(OBJS_BONUS) $(LIBFT) -o $(NAME_BONUS)
+bonus: $(OBJS_BONUS) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS_BONUS) $(LIBFT)
 
 re: fclean all
-	clear
 
 .PHONY: all clean fclean re
