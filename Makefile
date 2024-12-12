@@ -6,9 +6,9 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -g
 
-SRCS =  pipex_split.c pipex.c pipex_utils.c parsing.c
+SRCS =  pipex_split.c pipex.c pipex_utils.c parsing.c tries1.c tries2.c
 
-SRCS_BONUS = pipex_split.c pipex_bonus.c pipex_utils.c parsing.c  heredoc.c
+SRCS_BONUS = pipex_split.c pipex_bonus.c pipex_utils.c parsing.c  heredoc.c tries1.c tries2.c
 
 LIBFT_PATH = libft
 

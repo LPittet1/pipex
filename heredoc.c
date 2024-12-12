@@ -6,29 +6,36 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:43:12 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/10 17:05:45 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/12 14:53:12 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	heredoc(char *limiter)
+void	heredoc(int ac, char **av, char **env)
 {
-	int	fd;
-	char *line;
+	int		fdin;
+	char	*line;
+	int		len;
 
-	fd = open("here_doc", O_CREAT | O_APPEND | O_RDWR, 0666);
+	if (!access("here_doc", F_OK))
+		try_unlink("here_doc");
+	len = ft_strlen(av[2]);
+	fdin = try_open("here_doc", O_CREAT | O_APPEND | O_WRONLY, 0666);
 	line = get_next_line(0);
 	while (line)
 	{
-		ft_putstr_fd(line, fd);
-		if (!ft_strncmp(line, limiter, ft_strlen(line)))
+		if (!ft_strncmp(line, av[2], max(len, ft_strlen(line) - 1)))
 			break ;
+		ft_putstr_fd(line, fdin);
 		free(line);
 		line = get_next_line(0);
 	}
 	free(line);
-	return (fd);
+	close(fdin);
+	try_open("here_doc", O_RDONLY, 0);
+	try_dup2(fdin, STDIN_FILENO);
+	pipex_bonus(ac, av, env, 3);
 }
 
 //TODO change break condition to accept only exact match

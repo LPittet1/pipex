@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:45:43 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/10 09:37:35 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/12 11:00:33 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,11 @@ void	freesplit(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+int	max(int first, int second)
+{
+	if (first > second)
+		return (first);
+	return (second);
 }

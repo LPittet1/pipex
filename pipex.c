@@ -6,7 +6,7 @@
 /*   By: lpittet <lpittet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:36:18 by lpittet           #+#    #+#             */
-/*   Updated: 2024/12/10 14:29:14 by lpittet          ###   ########.fr       */
+/*   Updated: 2024/12/12 14:05:51 by lpittet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,7 @@ void	child(char *file, char *cmd, char **env, int *pipefd)
 	int		fd;
 
 	close(pipefd[0]);
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Cannot read input file");
-		exit (EXIT_FAILURE);
-	}
+	fd = try_open(file, O_RDONLY, 0);
 	cmd_split = pipex_split(cmd, ' ');
 	path = find_path(cmd_split[0], env);
 	if (!path)
@@ -45,9 +40,9 @@ void	child(char *file, char *cmd, char **env, int *pipefd)
 		freesplit(cmd_split);
 		exit (127);
 	}
-	dup2(fd, STDIN_FILENO);
-	dup2(pipefd[1], STDOUT_FILENO);
-	close(fd);
+	try_dup2(fd, STDIN_FILENO);
+	try_dup2(pipefd[1], STDOUT_FILENO);
+	try_close(fd);
 	execute(path, cmd_split, env);
 }
 
@@ -58,12 +53,7 @@ void	parent(char *file, char *cmd, char **env, int *pipefd)
 	int		fd;
 
 	close(pipefd[1]);
-	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		perror("bash : outfile");
-		exit (EXIT_FAILURE);
-	}
+	fd = try_open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	cmd_split = pipex_split(cmd, ' ');
 	path = find_path(cmd_split[0], env);
 	if (!path)
@@ -73,9 +63,9 @@ void	parent(char *file, char *cmd, char **env, int *pipefd)
 		freesplit(cmd_split);
 		exit (EXIT_FAILURE);
 	}
-	dup2(pipefd[0], STDIN_FILENO);
-	dup2(fd, STDOUT_FILENO);
-	close (fd);
+	try_dup2(pipefd[0], STDIN_FILENO);
+	try_dup2(fd, STDOUT_FILENO);
+	try_close (fd);
 	execute(path, cmd_split, env);
 }
 
@@ -83,25 +73,19 @@ int	main(int ac, char **av, char **env)
 {
 	pid_t	pid;
 	int		pipefd[2];
-	
-	if (!*env || ac != 5 || !av[1][1] || !av[2][1] || !av[3][1] || !av[4][1])
+
+	if (!*env || ac != 5)
+	{
+		write(2, "Usage ./pipex infile cmd1 cmd2 outfile", 39);
 		return (1);
-	if (pipe(pipefd) == -1)
-	{
-		perror("Error creating pipe");
-		exit (EXIT_FAILURE);
 	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("Error creating child process");
-		exit (EXIT_FAILURE);
-	}
+	try_pipe(pipefd);
+	pid = try_fork();
 	if (pid == 0)
 		child(av[1], av[2], env, pipefd);
 	else if (pid != 0)
 	{
-		wait(NULL);
+		try_wait();
 		parent(av[4], av[3], env, pipefd);
 	}
 	return (0);
